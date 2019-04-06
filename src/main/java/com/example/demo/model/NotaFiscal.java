@@ -1,14 +1,13 @@
 package com.example.demo.model;
 
-import java.io.Serializable;
-import java.util.UUID;
-
+import com.datastax.driver.core.DataType;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Indexed;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import com.datastax.driver.core.DataType;
+import java.io.Serializable;
+import java.util.UUID;
 
 @Table("notafiscal")
 public class NotaFiscal implements Serializable {
