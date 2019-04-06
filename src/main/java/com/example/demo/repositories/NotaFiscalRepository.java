@@ -6,7 +6,8 @@ import java.util.UUID;
 import org.springframework.data.cassandra.repository.CassandraRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.univali.notaFiscal.model.NotaFiscal;
+import com.example.demo.model.NotaFiscal;
+
 
 @Repository
 public interface NotaFiscalRepository extends CassandraRepository<NotaFiscal, UUID> {
