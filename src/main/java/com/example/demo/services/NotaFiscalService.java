@@ -46,7 +46,7 @@ public class NotaFiscalService {
 
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/db?useTimezone=true&serverTimezone=UTC",
+                "jdbc:mysql://localhost:3306/invoice_system_univali?useTimezone=true&serverTimezone=UTC",
                 "root",
                 "");
 

@@ -8,7 +8,19 @@
 <body>
 	<div class="container">
 		<div>
-			<h2>Leo Andrey</h2>
+			<h2>Nota Fiscais - Origem Mysql</h2>
+			<table class="table table-striped">
+				<tr>
+					<th>Número</th>
+					<th>Nome</th>
+					<th>-</th>
+				</tr>
+				<tr th:each="nf : ${listNotaFiscal}">
+					<td th:text="${nf.numero}"></td>
+					<td th:text="${nf.nome}"></td>
+					<td><a target="_blank" th:href="'http://localhost:8080/notafiscal/cassandra/exportPDF/' + ${nf.numero}">Donwload</a></td>
+				</tr>
+			</table>
 
 		</div>
 	</div>
