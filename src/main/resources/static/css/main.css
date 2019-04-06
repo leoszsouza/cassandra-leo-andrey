@@ -1,0 +1,102 @@
+.container {
+	padding: 2px;
+}
+
+.linha {
+	width: 100%;
+	margin-bottom: 5px;
+	border-radius: 5px;
+	position: relative;
+	display: table;
+}
+
+.sub-linha {
+	min-height: 29px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding-left: 2px;
+}
+
+.linha-pontilhada {
+	border-top: 2px dashed #ddd;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	position: relative;
+}
+
+.cemPercent {
+	width: 688px;
+}
+
+.oitentaPercent {
+	width: 550px;
+}
+
+.sessentaPercent {
+	width: 416px;
+}
+
+.quarentaPercent {
+	width: 274px;
+}
+
+.trintaPercent {
+	width: 207px;
+}
+
+.vintePercent {
+	width: 132px;
+}
+
+.dezPercent {
+	width: 68px;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.logo {
+	margin-left: 15px;
+	display: -webkit-box;
+	height: 100px;
+}
+
+.label-linha {
+	font-size: 12px;
+	margin-top: 10px;
+	margin-bottom: 0;
+}
+
+.sublinha-tit {
+	font-size: 10px;
+	width: 100%;
+	top: -5px;
+	position: relative;
+	margin-bottom: 0;
+	font-weight: normal;
+}
+
+.titulo-table {
+	float: left;
+	font-size: 10px;
+	text-align: center;
+	border-right: 1px solid #ddd;
+	padding-left: 3px;
+	padding-right: 3px;
+	height: 20px;
+	line-height: 20px;
+}
+
+.value-table {
+	float: left;
+	font-size: 13px;
+	text-align: center;
+	border-right: 1px solid #ddd;
+	padding-left: 3px;
+	padding-right: 3px;
+}
