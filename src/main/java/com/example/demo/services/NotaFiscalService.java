@@ -3,18 +3,32 @@ package com.example.demo.services;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 import com.example.demo.dto.NotaDTO;
+import com.example.demo.model.NotaFiscal;
+import com.example.demo.repositories.NotaFiscalRepository;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 
 @Service
 public class NotaFiscalService {
+	
+	@Autowired
+	private NotaFiscalRepository notaFiscalRepository;
 
     public List<NotaDTO> getNotasFiscaisMysql() {
 
@@ -79,6 +93,68 @@ public class NotaFiscalService {
 
         return notas;
     }
+    
+    public List<NotaFiscal> migrateDataToCassandra() {
+
+        List<NotaDTO> notas = new ArrayList<NotaDTO>();
+
+        String sql = String.format("SELECT "
+            + " c.name, "
+            + "	c.address, "
+            + "	i.number, "
+            + "	s.service_description, "
+            + "	ii.quantity, ii.unit_value, "
+            + "	r.name As recurso, "
+            + "	rq.qualificatin_name as funcao, "
+            + "	ii.tax_percent, "
+            + "	ii.discount_percent, "
+            + "	ii.subtotal,"
+            + "	i.value "
+            + "FROM " + "customer c "
+            + "inner join invoice i on c.id_customer = i.customer_id "
+            + "inner join invoice_item ii on ii.invoice_id = i.number "
+            + "inner join service s on s.service_id = ii.service_id "
+            + "inner join resource r on r.id_resource = ii.resource_id "
+            + "inner join resource_qualification_assignement rqa on rqa.resource_id = r.id_resource "
+            + "inner join resource_qualification rq on rq.id_resource_qualification = rqa.qualification_id "
+            + "order by "
+            + "	c.name, i.number ");
+
+           	DriverManagerDataSource ds = new DriverManagerDataSource();
+    		ds.setDriverClassName("com.mysql.jdbc.Driver");
+    		ds.setUrl("jdbc:mysql://localhost:3306/invoice_system_univali?useTimezone=true&serverTimezone=UTC");    		
+    		ds.setUsername("root");
+    		ds.setPassword("");
+    		
+            JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+            
+            
+            List<Map<String, Object>> listMap = jdbcTemplate.queryForList(sql);
+
+    		Gson gson = new Gson();
+    		String json = gson.toJson(listMap);
+
+    		Type listType = new TypeToken<ArrayList<NotaFiscal>>() {
+    		}.getType();
+    		List<NotaFiscal> listNotaFiscal = gson.fromJson(json, listType);
+    		
+    		try {
+    			notaFiscalRepository.deleteAll();
+    		} catch (Exception e) {
+    			System.out.println("Não tem dados");
+    		}
+
+    		for (NotaFiscal notaFiscal : listNotaFiscal) {
+    			this.save(notaFiscal);
+    		}
+
+    		return listNotaFiscal;
+    }
+        
+    public NotaFiscal save(NotaFiscal notaFiscal) {
+		notaFiscal.setId(UUID.randomUUID());
+		return notaFiscalRepository.save(notaFiscal);
+	}
 
     public void insertNotasCassandra(List<NotaDTO> notas){
 
