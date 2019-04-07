@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Lista de notas</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link th:href="@{css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+</head>
+<body>
+	<div class="container">
+		<div>
+            <h3> Migração concluída!</h3>            
+			<h2>Notas migradas para o Cassandra</h2>
+            <table class="table table-striped">
+				<tr>
+					<th>Número</th>
+					<th>Nome</th>
+					<th>-</th>
+				</tr>
+				<tr th:each="nf : ${listFromCassandra}">
+					<td th:text="${nf.numero}"></td>
+                    <td th:text="${nf.nome}"></td>
+                    <td><a target="_blank" th:href="'http://localhost:8080/notafiscal/cassandra/exportPDF/' + ${nf.numero}">Donwload</a></td>					
+				</tr>
+			</table>
+
+		</div>
+	</div>
+</body>
+</html>
