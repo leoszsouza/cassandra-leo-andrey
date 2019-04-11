@@ -17,9 +17,9 @@
 					<th>-</th>
 				</tr>
 				<tr th:each="nf : ${listFromCassandra}">
-					<td th:text="${nf.numero}"></td>
-                    <td th:text="${nf.nome}"></td>
-                    <td><a target="_blank" th:href="'http://localhost:8080/notafiscal/cassandra/exportPDF/' + ${nf.numero}">Donwload</a></td>					
+					<td th:text="${nf.number}"></td>
+                    <td th:text="${nf.name}"></td>
+                    <td><a target="_blank" th:href="'http://localhost:8080/notafiscal/cassandra/exportPDF/' + ${nf.number}">Donwload</a></td>					
 				</tr>
 			</table>
 
