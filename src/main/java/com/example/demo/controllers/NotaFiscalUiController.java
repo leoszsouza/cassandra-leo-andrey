@@ -1,18 +1,14 @@
 package com.example.demo.controllers;
 
-import java.util.List;
-
+import com.example.demo.dto.NotaMySQLDTO;
+import com.example.demo.services.NotaFiscalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.demo.dto.NotaDTO;
-import com.example.demo.services.NotaFiscalService;
+import java.util.List;
 
 
 
@@ -25,7 +21,7 @@ public class NotaFiscalUiController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getPost(Model model) {
 		try {
-			List<NotaDTO> notas = notaFiscalService.getNotasFiscaisMysql();
+			List<NotaMySQLDTO> notas = notaFiscalService.getNotasFiscaisMysql();
 
 			model.addAttribute("listNotaFiscal", notas);
 

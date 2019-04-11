@@ -3,11 +3,11 @@ package com.example.demo.services;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 import com.example.demo.dto.NotaDTO;
+import com.example.demo.dto.NotaMySQLDTO;
 import com.example.demo.model.NotaFiscal;
 import com.example.demo.repositories.NotaFiscalRepository;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -29,9 +29,9 @@ public class NotaFiscalService {
 	@Autowired
 	private NotaFiscalRepository notaFiscalRepository;
 
-	public List<NotaDTO> getNotasFiscaisMysql() {
+	public List<NotaMySQLDTO> getNotasFiscaisMysql() {
 
-		List<NotaDTO> notas = new ArrayList<NotaDTO>();
+		List<NotaMySQLDTO> notas = new ArrayList<NotaMySQLDTO>();
 
 		String sql = String.format("SELECT " + " c.name, " + "	c.address, " + "	i.number, "
 				+ "	s.service_description, " + "	ii.quantity, ii.unit_value, " + "	r.name As recurso, "
@@ -57,7 +57,7 @@ public class NotaFiscalService {
 
 			while (rs.next()) {
 
-				NotaDTO nota = new NotaDTO();
+                NotaMySQLDTO nota = new NotaMySQLDTO();
 				nota.setNome(rs.getString(1));
 				nota.setEndereco(rs.getString(2));
 				nota.setNumero(Integer.valueOf(rs.getString(3)));
@@ -133,7 +133,7 @@ public class NotaFiscalService {
 		return notaFiscalRepository.save(notaFiscal);
 	}
 
-	public void insertNotasCassandra(List<NotaDTO> notas) {
+	public void insertNotasCassandra(List<NotaMySQLDTO> notas) {
 
 		String serverIP = "127.0.0.1";
 		String keyspace = "cassandra_notas";
@@ -144,7 +144,7 @@ public class NotaFiscalService {
 
 		String cql = "";
 
-		for (NotaDTO nota : notas) {
+		for (NotaMySQLDTO nota : notas) {
 			cql = "INSERT INTO cassandra_notas.notas ("
 					+ "id , nome, endereco, numero, servico, quantidade, valor, recurso,"
 					+ " funcao, taxa, desconto, subtotal total) " + "VALUES ('uuid()','" + nota.getNome() + "','"
