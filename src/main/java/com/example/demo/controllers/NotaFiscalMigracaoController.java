@@ -8,6 +8,8 @@ import com.example.demo.repositories.NotaFiscalRepository;
 import com.example.demo.services.NotaFiscalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +54,8 @@ public class NotaFiscalMigracaoController {
 
 		NotaDTO dto = new NotaDTO();
 		List<NotaItemDTO> itens = new ArrayList<NotaItemDTO>();
-
+		
+		Double total = 0.0;
 		for(NotaFiscal nota : data){
 			NotaItemDTO item = new NotaItemDTO();
 			item.setDescricaoServico(nota.getService_description());
@@ -61,27 +66,23 @@ public class NotaFiscalMigracaoController {
 			item.setSubtotal(nota.getSubtotal());
 			item.setRecurso(nota.getRecurso());
 			item.setFuncao(nota.getFuncao());
+			total += item.getSubtotal();
 			itens.add(item);
 		}
-
+		dto.setTotal(total);
 		dto.setItens(itens);
 
 		pdf.generate(dto);
-
+		
 		return null;
-
-//		NotaFiscalDTO notaFiscalDTO = notaFiscalService.getByNumber(number);
-
-
-//		
-//		MediaType mediaType = MediaType.parseMediaType("application/pdf");
-//		File file = pdfGenerator.createPdf("notafiscal/export", notaFiscalDTO, number.toString());
-//        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+		
+//		MediaType mediaType = MediaType.parseMediaType("application/pdf");		
+//        InputStreamResource resource = new InputStreamResource(new FileInputStream(pdf.DIRETORIO));
 // 
 //        return ResponseEntity.ok()
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + resource.getFile().getName())
 //                .contentType(mediaType)
-//                .contentLength(file.length())
+//                .contentLength(resource.getFile().length())
 //                .body(resource);
 	}
 	

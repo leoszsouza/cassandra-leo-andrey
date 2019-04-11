@@ -10,6 +10,7 @@ public class NotaItemDTO {
     private Double porcentoTaxa;
     private Double porcentoDesconto;
     private Double subtotal;
+    private Double total;
 
     public String getQuantidade() {
         return quantidade;
@@ -75,4 +76,13 @@ public class NotaItemDTO {
         this.descricaoServico = descricaoServico;
     }
 
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
+	}
+    
+    
 }

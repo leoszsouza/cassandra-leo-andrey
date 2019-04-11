@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PDFUtils {
 
-    private static String DIRETORIO = "C:/temp/nota.pdf";
+    public static String DIRETORIO = "C:/temp/nota.pdf";
     private static Font FONTE = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
     private static Font SUB_FONTE = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD);
     private static Font FONTE_COLUNA = new Font(Font.FontFamily.TIMES_ROMAN, 8, Font.BOLD, BaseColor.LIGHT_GRAY);
@@ -95,7 +95,7 @@ public class PDFUtils {
 
             Paragraph rodape = new Paragraph();
             rodape.add(new Paragraph(" "));
-            rodape.add(new Paragraph("Total: R$"+"1.000,00", SUB_FONTE));
+            rodape.add(new Paragraph("Total: R$"+nota.getTotal(), SUB_FONTE));
 
             pdf.add(tabela);
             pdf.add(rodape);
